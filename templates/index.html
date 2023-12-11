@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Titanic</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="wrapper">
+      <header></header>
+      <div class="content">
+        <div class="ticket-info">
+          <div class="info">
+            <div class="contact">
+              <form method="POST" action="/">
+                <div class="input-group">
+                  <div class="label-input">
+                    <label for="name">İsim:</label>
+                    <input type="text" id="name" name="name" required />
+                  </div>
+
+                  <div class="label-input">
+                    <label for="age">Yaş:</label>
+                    <input type="number" id="age" name="age" required />
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <div class="label-input">
+                    <label for="title">Mesleki Durum:</label>
+                    <select id="title" name="title" required onchange="calculateTicketPrice()">
+                      <option value="" disabled selected>Seçiniz</option>
+                      <option value="Mrs">Çalışan</option>
+                      <option value="Master">İş veren / Kendi işim</option>
+                      <option value="Mr">Öğrenci</option>
+                      <option value="other">Diğer</option>
+                    </select>
+                  </div>
+
+                  <div class="label-input">
+                    <label for="gender">Cinsiyet:</label>
+                    <input type="radio" id="male" name="gender" value="male" required />
+                    <label for="male">Erkek</label>
+                    <input type="radio" id="female" name="gender" value="female" required />
+                    <label for="female">Kadın</label>
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <div class="label-input">
+                    <label for="siblings">Kardeş Sayısı:</label>
+                    <input type="number" id="siblings" name="siblings" required />
+                  </div>
+
+                  <div class="label-input">
+                    <label for="evlilik">Medeni Durum:</label>
+                    <input type="radio" id="Evli" name="evlilik" value="Evli" required />
+                    <label for="Evli">Evli</label>
+                    <input type="radio" id="Bekar" name="evlilik" value="Bekar" required />
+                    <label for="Bekar">Bekar</label>
+                  </div>
+                </div>
+
+                  <div class="label-input">
+                    <label for="class">Sınıf:</label>
+                    <select id="class" name="class" required onchange="calculateTicketPrice()">
+                      <option value="" disabled selected>Seçiniz</option>
+                      <option value="1">1.Sınıf Yolculuk - 20000 TL</option>
+                      <option value="2">2.Sınıf Yolculuk - 10000 TL</option>
+                      <option value="3">3.Sınıf Yolculuk - 3000 TL</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="input-group">
+                  <div class="label-input">
+                    <label for="port">Binilecek Liman:</label>
+                    <select id="port" name="port" required onchange="calculateTicketPrice()">
+                      <option value="" disabled selected>Seçiniz</option>
+                      <option value="Q">Q</option>
+                      <option value="S">S (+2000 TL)</option>
+                      <option value="C">C (+6000 TL)</option>
+                    </select>
+                  </div>
+                  <span id="ticketPrice">Bilet Fiyatı: 0</span>
+                  <button type="submit">Bilet Al</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end wrapper -->
+    <script src="https://unpkg.com/sweetalert2@7.1.2/dist/sweetalert2.all.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        if (!sessionStorage.getItem("isFirstTime")) {
+            console.log("Sayfa ilk kez yüklendi.");
+            sessionStorage.setItem("isFirstTime", "true");
+                swal({
+                  title: "Titanik'e Hoş Geldiniz!",
+                  text: "Ah o Titanik'te ben olacaktım diyenlerden misiniz? O zaman buyrun kendinizi bir test edin! Hayatta kalıp kalamayacağınızı görelim.",
+                  icon: "static/man3.png",
+                });
+        }
+    </script>
+    <script>
+      var sonucDeger = {{ survival_status|tojson|safe }};
+
+      function showPopup() {
+        if (window.performance) {
+          if (performance.navigation.type === 1) {
+            sonucDeger = "sayfa yeniledi";
+          }
+        }
+        // Sonucun hesaplandığını kontrol et
+        if (sonucDeger !== "yok") {
+          if (sonucDeger === "1") {
+            swal({
+              title: "Hayattasınız!",
+              text: "Hayat! Bana hayattan bahsetmeyin.",
+              icon: "static/life.png",
+            });
+          } else if (sonucDeger === "0") {
+            swal({
+              title: "Öldünüz!",
+              text: "Maalesef yerkürede planladığımdan oldukça fazla takıldım.",
+              icon: "static/dead.png",
+            });
+          } else {
+            console.log("Bilinmeyen değer: " + sonucDeger);
+          }
+        }
+      }
+
+      // Pop-up'ı otomatik olarak göster
+      showPopup();
+    </script>
+      <script>
+      function calculateTicketPrice() {
+        var classSelect = document.getElementById("class");
+        var portSelect = document.getElementById("port");
+        var selectedClass = classSelect.options[classSelect.selectedIndex].value;
+        var selectedPort = portSelect.options[portSelect.selectedIndex].value;
+
+        // Bilet ücretini hesapla
+        var ticketPrice = 0;
+
+        if (selectedClass !== "") {
+          // selectedClass boş değilse buradaki kod çalışır
+          ticketPrice += calculateBasePrice(selectedClass);
+        }
+        if (selectedPort !== "") {
+          // selectedPort boş değilse buradaki kod çalışır
+          ticketPrice += calculatePortPrice(selectedPort);
+        }
+
+        document.getElementById("ticketPrice").innerText = "Bilet Fiyatı: " + ticketPrice + " TL";
+
+
+      }
+
+      function calculateBasePrice(selectedClass) {
+        if (selectedClass === "1") {
+          return 20000;
+        } else if (selectedClass === "2") {
+          return 10000;
+        } else if (selectedClass === "3") {
+          return 3000;
+        }
+        return 0;
+      }
+
+      function calculatePortPrice(selectedPort) {
+        if (selectedPort === "S") {
+          return 2000;
+        } else if (selectedPort === "C") {
+          return 6000;
+        }
+        return 0;
+      }
+    </script>
+  </body>
+</html>

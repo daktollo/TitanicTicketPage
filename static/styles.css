@@ -1,0 +1,193 @@
+body {
+    background-color: #fff;
+    background-image: url("./yagli_boya.png");
+    background-repeat: no-repeat;
+    background-size: 1950px 980px;
+    color: #000;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    font-family: Arial, sans-serif;
+}
+
+.wrapper {
+    width: 80%;
+    margin: 0 auto;
+    padding: 2% 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.popup{
+    background-color: rgba(255, 255, 255, 1);
+    width: 80%;
+    height: 60%;
+    padding: 30px 40px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+    border-radius: 8px;
+    font-family: "Poppins",sans-serif;
+    display: none;
+    text-align: center;
+}
+.popup button{
+    display: block;
+    margin:  0 0 20px auto;
+    background-color: transparent;
+    font-size: 30px;
+    color: rgba(197, 197, 197,1);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    width: 50px;
+}
+.popup p{
+    font-size: 14px;
+    text-align: center;
+    margin: 20px 0;
+    line-height: 25px;
+}
+.popup a{
+    display: block;
+    width: 150px;
+    position: relative;
+    margin: 10px auto;
+    text-align: center;
+    background-color: #0f72e5;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 5px 0;
+}
+
+.popup img{
+    height: 60%;
+}
+
+.content-container {
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    width: 60%;
+    overflow: hidden;
+    justify-content: space-between;
+}
+
+.content {
+    padding: 20px;
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.ticket-info {
+    flex: 1;
+}
+
+.info {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.contact {
+    margin-top: 20px;
+}
+
+.label-input {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.label-input label {
+    width: 120px;
+    margin-right: 10px;
+    color: #333;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+select,
+input[type="number"],
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: rgba(46,204,113,0.8);
+    color: #fff;
+    cursor: pointer;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+select,
+input[type="text"],
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: rgba(46,204,113,0.8);
+    color: #fff;
+    cursor: pointer;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+select:hover,
+input[type="number"]:hover,
+button:hover {
+    background-color: rgba(46,204,113,0.8);
+}
+
+.image {
+    flex: 1;
+    max-width: 40%;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end; /* Resmi dikeyde alta hizala */
+    margin-right: 500px; /* Form ile arasına boşluk bırakır */
+    /*margin-left: -20px;*/ /* Gemiyi sola kaydırır */
+}
+
+.image img {
+    width: 00%; /* Resmin boyutunu iki katına çıkar */
+    height: auto;
+    max-height: 100%;
+}
+
+.swal-height {
+    height: 150% !important;
+  }
+
+/* Responsive düzenlemeler */
+@media only screen and (max-width: 1136px) {
+    .wrapper {
+        flex-direction: column;
+    }
+
+    .content-container {
+        width: 100%;
+    }
+
+    .label-input label {
+        width: auto;
+    }
+
+    .content {
+        flex-direction: column;
+    }
+
+    .image,
+    .info {
+        max-width: 100%;
+        margin-left: 0; /* Mobilde gemiyi ortala */
+        margin-right: 0; /* Mobilde form ile arasındaki boşluğu kaldır */
+    }
+}
